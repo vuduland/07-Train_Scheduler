@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<!--****************NOTE: getting a push error. sometimes it will work for 2 or 3 pushes, then stop, and sometimes just once***************-->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,6 @@
   <title>Train Schedule</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 </head>
 
 <body>
@@ -44,8 +43,8 @@
               <td scope="row">Oregon Trail</td>
               <td>Salem, Oregon</td>
               <td>3600</td>
-              <td>01:39 PN</td>
-              <td>1154</td>
+              <td>01:39 PM</td>
+              <td>11</td>
             </tr>
             <tr>
               <td scope="row">Midnight Carriage</td>
@@ -66,19 +65,19 @@
     <form>
       <div class="form-group" style="padding: 10px">
         <label for="inputTrainName">Train Name</label>
-        <input type="trainName" class="form-control" id="inputTrainName" aria-describedby="trainName">
+        <input type="text" class="form-control" id="inputTrainName" aria-describedby="trainName">
       </div>
       <div class="form-group" style="padding: 10px">
         <label for="inputDestination">Destination</label>
-        <input type="destination" class="form-control" id="inputDestination">
+        <input type="text" class="form-control" id="inputDestination">
       </div>
       <div class="form-group" style="padding: 10px">
         <label for="inputFirstDeparture">First Train Time (HH:mm - military time)</label>
-        <input type="firstTrain" class="form-control" id="inputFirstDeparture">
+        <input type="inputFirstDeparture" class="form-control" id="inputFirstDeparture">
       </div>
       <div class="form-group" style="padding: 10px">
         <label for="inputFrequency">Frequency (mins)</label>
-        <input type="frequency" class="form-control" id="inputFrequency">
+        <input type="inputFrequency" class="form-control" id="inputFrequency">
       </div>
       <button id="submitbtn" type="submit" class="btn btn-primary">Submit</button>
     </form>
@@ -86,17 +85,37 @@
   </div>
   </div>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-firestore.js"></script>
+  <script> var firebaseConfig = {
+      apiKey: "AIzaSyAOKTmXu9Dfha1X2x8lFjFglpBIC-23qow",
+      authDomain: "trainscheduler-73d81.firebaseapp.com",
+      databaseURL: "https://trainscheduler-73d81.firebaseio.com",
+      projectId: "trainscheduler-73d81",
+      storageBucket: "trainscheduler-73d81.appspot.com",
+      messagingSenderId: "1050094374908",
+      appId: "1:1050094374908:web:2e92f24802c82a1a2fec79",
+      measurementId: "G-X1ZFXCRX4Z"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
     crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-database.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-firestore.js"></script>
-  <script src=assets\javascript\app.js></script>
+
+  <script src="assets\javascript\app.js"></script>
 
 </body>
 

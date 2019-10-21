@@ -1,78 +1,80 @@
-// Your web app's Firebase configuration
-var firebaseConfig = {
-    apiKey: "AIzaSyAOKTmXu9Dfha1X2x8lFjFglpBIC-23qow",
-    authDomain: "trainscheduler-73d81.firebaseapp.com",
-    databaseURL: "https://trainscheduler-73d81.firebaseio.com",
-    projectId: "trainscheduler-73d81",
-    storageBucket: "trainscheduler-73d81.appspot.com",
-    messagingSenderId: "1050094374908",
-    appId: "1:1050094374908:web:2e92f24802c82a1a2fec79",
-    measurementId: "G-X1ZFXCRX4Z"
-};
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-// firebase.analytics();
-
-
 // Create a variable to reference the database.
 var database = firebase.database();
+
 // Initial Values
 var trainName = "";
 var destination = "";
-var firstDeparture = "";
+var firstDeparture = null;
+var arrivalTime = 0;
 var frequency = 0;
-var minutesAway = null;
-console.log(minutesAway);
+var minutesAway = 0;
+
 // Capture Button Click
 $("#submitbtn").on("click", function (event) {
     event.preventDefault();
+
     trainName = $("#inputTrainName").val().trim();
     destination = $("#inputDestination").val().trim();
-    arrivalTime = $("#arrivalTime").val().trim();
     firstDeparture = $("#inputFirstDeparture").val().trim();
     frequency = $("#inputFrequency").val().trim();
 
 
-    database.ref().push({
-        trainName: trainName,
+    // Creates local "temporary" object for holding employee data
+    var newTrain = {
+        name: trainName,
         destination: destination,
+        frequency: frequency,
         firstDeparture: firstDeparture,
         arrivalTime: arrivalTime,
-        frequency: frequency,
         minutesAway: minutesAway
-    });
-    
+    };
+
+
+    // Uploads train data to the database
     doMath();
-    
+    database.ref().push(newTrain);
+    database.ref().on("child_added", function () {
+
+        $("#trainList").append(newRow);
+    });
+
     var newRow = $("<tr>").append(
         $("<td>").text(trainName),
         $("<td>").text(destination),
+        $("<td>").text(frequency),
         $("<td>").text(firstDeparture),
         $("<td>").text(arrivalTime),
-        $("<td id='freq'>").text(frequency),
-        $("<td id='minutes'>").text(minutesAway)
+        $("<td>").text(minutesAway)
 
     );
 
-    
-
-    $("#trainList").append(newRow);
-    
-    $("#freq").text(frequency);
-    $("#minutes").text(minutesAway);
 
 
+    // database.ref().push({
+    //     trainName: trainName,
+    //     destination: destination,
+    //     frequency: frequency,
+    //     firstDeparture: firstDeparture,
+    //     arrivalTime: arrivalTime,
+    //     minutesAway: minutesAway
+    // });
 
 
+
+    // console.log(snapshot.val());
+    // console.log(snapshot.val().trainName);
+    // console.log(snapshot.val().destination);
+    // console.log(snapshot.val().firstDeparture);
+    // console.log(snapshot.val().arrivalTime);
+    // console.log(snapshot.val().frequency);
+    // console.log(snapshot.val().minutesAway);
 });
 
 
-
-    var doMath = function () {
+var doMath = function () {
 
     console.log(frequency);
-    // var tFrequency = 3; use global variable
-    //var firstDeparture = "03:30";
+
     var firstDepartureConverted = moment(firstDeparture, "HH:mm").subtract(1, "years");
     console.log(firstDepartureConverted);
 
@@ -85,14 +87,14 @@ $("#submitbtn").on("click", function (event) {
 
     //Time apart (remainder)
     var remainder = diffTime % frequency;
-    console.log(remainder);
+    console.log("remainder: " + remainder);
 
     //minute until train arrival
-    var minutesAway = frequency - remainder;
+    minutesAway = frequency - remainder;
     console.log("Minutes until train arrival: " + minutesAway);
 
     //next train
-    var nextTrain = moment().add(minutesAway, "minutes");
-    console.log("Arrival time: " + moment(nextTrain).format("hh:mm"));
+    arrivalTime = moment().add(minutesAway, "minutes");
+    console.log("Arrival time: " + moment(arrivalTime).format("hh:mm"));
 
 };
